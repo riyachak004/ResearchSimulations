@@ -62,7 +62,7 @@ def main():
     plt.ylabel('Probability')
     plt.xlabel('Number of Flips')
     plt.legend()
-    plt.savefig(f'coinTossHeadsLineGraph{coinTossTotal}_{headBias}.png')
+    plt.savefig(f'coinTossLineGraph{coinTossTotal}_{headBias}.png')
     plt.clf()
 
 
