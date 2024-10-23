@@ -31,11 +31,11 @@ def main():
     for i in range(0,coinTossTotal):
         outcome = random.random()
         if outcome < headBias:
-            headTotal+=1
-            headsFrequency.append(float(headTotal/(i + 1)))
+            headTotal+=1 
         else: 
             tailTotal+=1
-            tailsFrequency.append(float(tailTotal/(i + 1)))
+        headsFrequency.append(float(headTotal/(i + 1)))
+        tailsFrequency.append(float(tailTotal/(i + 1)))
     
     # Organize output 
     logger.info("Heads Total: %f", float(headTotal/coinTossTotal))
@@ -43,7 +43,7 @@ def main():
     data = ['Tails'] * tailTotal + ['Heads'] * headTotal
     
     # Plotting a basic histogram
-    plt.hist(data, bins=2, color='blue', edgecolor='black')
+    plt.hist(data, bins=2, color='green', edgecolor='black')
     
     # Adding labels and title
     plt.xlabel('Outcome')
@@ -54,21 +54,24 @@ def main():
 
     # Create a line graph of frequencies
     headsArray = np.array(headsFrequency)
+    tailsArray = np.array(tailsFrequency)
 
-    plt.title("Heads Probability Over Time")
-    plt.plot(headsArray)
+    plt.title("Probability Over Time")
+    plt.plot(headsArray, color="blue", label='Heads')
+    plt.plot(tailsArray, color="red", label='Tails')
     plt.ylabel('Probability')
     plt.xlabel('Number of Flips')
+    plt.legend()
     plt.savefig('coinTossHeadsLineGraph.png')
     plt.clf()
 
-    tailsArray = np.array(tailsFrequency)
     
-    plt.title("Tails Probability Over Time")
-    plt.plot(tailsArray)
-    plt.ylabel('Probability')
-    plt.xlabel('Number of Flips')
-    plt.savefig('coinTossTailsLineGraph.png')
+    
+    # plt.title("Tails Probability Over Time")
+    
+    # plt.ylabel('Probability')
+    # plt.xlabel('Number of Flips')
+    # plt.savefig('coinTossTailsLineGraph.png')
 
 
 if __name__ == "__main__":

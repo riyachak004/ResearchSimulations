@@ -33,32 +33,42 @@ class User:
         self.moneySpent = 0
         self.profit = 0
 
+# Set of traders
 userBook = {}
+security1Prices = []
+security2Prices = []
 
 def updateUser(user: str="", quantity1:float=0, quantity2:float=0, cost:float=0):
+    """Adjusts the user's security quantities following a trade."""
     userBook[user].userQuantity1 += quantity1
     userBook[user].userQuantity2 += quantity2
     userBook[user].moneySpent += cost
 
 
 def currentMarketCost(market: MarketState) -> float: 
+    """Calculates the current cost of the market using LMSR's Cost Function."""
     return market.marketConstant * np.log(pow(math.e, market.marketQuantity1/market.marketConstant) + pow(math.e, market.marketQuantity2/market.marketConstant))
 
+
 def calculatePrice( market: MarketState, security:str="") -> float: 
+    """Returns the current market price of the security."""
     security1Component = pow(math.e, market.marketQuantity1/market.marketConstant)
     security2Component = pow(math.e, market.marketQuantity2/market.marketConstant)
     return security1Component/(security1Component + security2Component) if security == "Security1" else security2Component/(security1Component + security2Component)
 
+
 def calculateCost(market: MarketState, quantity1:float=0, quantity2:float=0) -> float: 
+    """Calculates the cost of trade."""
     costPrior = currentMarketCost(market)
     market.marketQuantity1 += quantity1
     market.marketQuantity2 += quantity2
     costPost = currentMarketCost(market)
     return costPost - costPrior 
 
+
 def calculateUserProfits(market: MarketState, userBook): 
+    """Determines the net compensation of each trader based on the event's outcome """
     for key, user in userBook.items():
-        logger.info(f"-----USER{user.userId} SUMMARY-----\n")
         logger.info(f"User{user.userId}, shares of Security 1: {user.userQuantity1}, Security 2: {user.userQuantity2}")
         if market.eventOutcome == 1: 
             revenue = user.userQuantity1
@@ -67,11 +77,28 @@ def calculateUserProfits(market: MarketState, userBook):
         user.profit = revenue - user.moneySpent
 
         logger.info(f"Spent: {user.moneySpent}, Earned: {revenue}")
-        logger.info(f"Net Profit: {user.profit}")
+        logger.info(f"Net Profit: {user.profit}\n")
+    
+def produceTimeSeries(market: MarketState): 
+    n = len(security1Prices)
+    security1Timeseries = np.array(security1Prices)
+    security2Timeseries = np.array(security2Prices)
+
+    plt.title("Timeseries of Security Prices")
+    plt.plot(security1Timeseries, color="blue", label='Security 1')
+    plt.plot(security2Timeseries, color="red", label='Security 2')
+    plt.ylabel('Price')
+    plt.xticks(np.arange(0, n, 1))
+    plt.ylim(0, 1)
+    plt.xlabel('Trade Number')
+    plt.legend()
+    plt.savefig(f'timeseriesPrices{market.marketConstant}.png')
+    plt.clf()
 
 def main(): 
     logger.info("Simulation of LMSR Prediction Market - 2024 Presidental Election \nSecurity 1: Kamala Harris wins\nSecurity 2: Donald Trump wins\n")
 
+    # Requests user input for intial market setup
     try:
         marketQuantity1 = float(input("Input outstanding shares of Security 1: "))
         marketQuantity2 = float(input("Input outstanding shares of Security 2: "))
@@ -91,10 +118,16 @@ def main():
 
     userBook["user1"] = User(userId=0)
     userBook["user2"] = User(userId=1)
+    tradeNumber = 0
+
+    intialPrice1 = round(calculatePrice(market, "Security1"), 3)
+    intialPrice2 = round(calculatePrice(market, "Security2"), 3)
+    security1Prices.append(intialPrice1)
+    security2Prices.append(intialPrice2)
 
     logger.info("--------BEGIN MARKET SIMULATION--------\n")
 
-    tradeNumber = 0
+    # Market Open - trades are executed until market closes
     while True: 
         trade = input(f"Execute Trade {tradeNumber}: ")
         
@@ -114,6 +147,8 @@ def main():
         tradeCost = round(calculateCost(market, q1Update, q2Update), 3)
         price1Update = round(calculatePrice(market, "Security1"), 3)
         price2Update = round(calculatePrice(market, "Security2"), 3)
+        security1Prices.append(price1Update)
+        security2Prices.append(price2Update)
         marketState = round(currentMarketCost(market), 3)
 
         updateUser(user, q1Update, q2Update, tradeCost)
@@ -121,14 +156,15 @@ def main():
 
         closeMarket = input("Would you like to terminate this market (Y/N)?")
         if closeMarket == "Y": 
+            # User has decided to terminate market
             eventOutcome = input("Enter the event's outcome. Enter 1 if Harris wins the election and 2 if Trump wins: ")
             market.setEventOutcome(eventOutcome)
             break
         
-        logger.info("-------------------NEW TRADE------------------\n")
+        logger.info("-------------------------------------NEW TRADE------------------------------------\n")
 
     calculateUserProfits(market,userBook)
-
+    produceTimeSeries(market)
 
 if __name__ == "__main__":
     main()
