@@ -49,29 +49,21 @@ def main():
     plt.xlabel('Outcome')
     plt.ylabel('Frequency')
     plt.title(f'Coin Toss Simulation ({coinTossTotal} tosses, Bias: {headBias})')
-    plt.savefig('coinToss.png') 
+    plt.savefig(f'coinToss{coinTossTotal}_{headBias}.png') 
     plt.clf()
 
     # Create a line graph of frequencies
     headsArray = np.array(headsFrequency)
     tailsArray = np.array(tailsFrequency)
 
-    plt.title("Probability Over Time")
+    plt.title(f"Probability Over Time ({coinTossTotal} tosses, Bias: {headBias})")
     plt.plot(headsArray, color="blue", label='Heads')
     plt.plot(tailsArray, color="red", label='Tails')
     plt.ylabel('Probability')
     plt.xlabel('Number of Flips')
     plt.legend()
-    plt.savefig('coinTossHeadsLineGraph.png')
+    plt.savefig(f'coinTossHeadsLineGraph{coinTossTotal}_{headBias}.png')
     plt.clf()
-
-    
-    
-    # plt.title("Tails Probability Over Time")
-    
-    # plt.ylabel('Probability')
-    # plt.xlabel('Number of Flips')
-    # plt.savefig('coinTossTailsLineGraph.png')
 
 
 if __name__ == "__main__":

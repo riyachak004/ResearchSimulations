@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 class MarketState: 
     def __init__(self, marketConstant, marketQuantity1, marketQuantity2):
         logger.info(f"Market Setup: Constant: {marketConstant}, Shares of Security 1: {marketQuantity1}, Shares of Security 2: {marketQuantity2}")
-        logger.info("---------------------------------------------------------------")
+        logger.info("-------------------------------------------------------------------------")
         self.marketConstant = marketConstant
         self.marketQuantity1 = marketQuantity1
         self.marketQuantity2 = marketQuantity2
@@ -69,7 +69,7 @@ def calculateCost(market: MarketState, quantity1:float=0, quantity2:float=0) -> 
 def calculateUserProfits(market: MarketState, userBook): 
     """Determines the net compensation of each trader based on the event's outcome """
     for key, user in userBook.items():
-        logger.info(f"User{user.userId}, shares of Security 1: {user.userQuantity1}, Security 2: {user.userQuantity2}")
+        logger.info(f"user{user.userId}, shares of Security 1: {user.userQuantity1}, Security 2: {user.userQuantity2}")
         if market.eventOutcome == 1: 
             revenue = user.userQuantity1
         else: 
@@ -116,8 +116,8 @@ def main():
 
     logger.info("Users are: user1, user2 \nInput a trade as follows: user, Security 1 shares, Security 2 shares\n")
 
-    userBook["user1"] = User(userId=0)
-    userBook["user2"] = User(userId=1)
+    userBook["user1"] = User(userId=1)
+    userBook["user2"] = User(userId=2)
     tradeNumber = 0
 
     intialPrice1 = round(calculatePrice(market, "Security1"), 3)
