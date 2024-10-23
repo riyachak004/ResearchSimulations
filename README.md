@@ -1,5 +1,4 @@
-This script enables a user to define a biased coin and set the number of trials for flipping the coin. The result of this experiment is represented in a histogram saved as “coinToss.png”. In this example, the histogram depicts the outcome of 1000 tosses with a bias of 0.55 toward heads. 
-
+This script enables a user to define a biased coin and set the number of trials for flipping the coin. The result of this experiment is represented in a histogram saved as “coinToss.png”. 
 
 As the number of flips, denoted by n, increases, we can start to notice an interesting pattern:  the probability of flipping a heads and the probability of flipping a tails begin to converge towards the user-defined probabilities. This convergence can be seen in the two line graphs “coinTossHeadsLineGraph.png” and “coinTossTailsLineGraph.png”. 
 LMSR script
