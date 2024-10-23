@@ -5,9 +5,10 @@ import random
 
 # source .venv/bin/activate
 logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 def main():
-    print("Welcome to coin toss!")
+    logger.info("Welcome to coin toss!")
     
     # Try catch block to ensure user entered bias and number of coin toss is a float and integer (respectively)
     try:
@@ -18,7 +19,7 @@ def main():
             raise ValueError("Bias must be between 0 and 1")
         
     except ValueError as e:
-        print(f"Input error: {e}")
+        logger.error(f"Input error: {e}")
         return  # Gracefully exit
 
     headTotal = 0
@@ -37,8 +38,8 @@ def main():
             tailsFrequency.append(float(tailTotal/(i + 1)))
     
     # Organize output 
-    print("Heads Total: ", float(headTotal/coinTossTotal))
-    print("Tails Total: ", float(tailTotal/coinTossTotal))
+    logger.info("Heads Total: %f", float(headTotal/coinTossTotal))
+    logger.info("Tails Total: %f", float(tailTotal/coinTossTotal))
     data = ['Tails'] * tailTotal + ['Heads'] * headTotal
     
     # Plotting a basic histogram
