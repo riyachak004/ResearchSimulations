@@ -1,11 +1,12 @@
 import matplotlib.pyplot as plt
+from scipy.stats import bernoulli
 import numpy as np
 import logging 
-import random
 
 # source .venv/bin/activate
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
+
 
 def main():
     logger.info("Welcome to coin toss!")
@@ -22,45 +23,50 @@ def main():
         logger.error(f"Input error: {e}")
         return  # Gracefully exit
 
-    headTotal = 0
-    tailTotal = 0
+
     headsFrequency = []
     tailsFrequency = []
-
-    # Flip the coin coinTossTotal many times and record results 
-    for i in range(0,coinTossTotal):
-        outcome = random.random()
-        if outcome < headBias:
-            headTotal+=1 
-        else: 
-            tailTotal+=1
-        headsFrequency.append(float(headTotal/(i + 1)))
-        tailsFrequency.append(float(tailTotal/(i + 1)))
-    
-    # Organize output 
-    logger.info("Heads Total: %f", float(headTotal/coinTossTotal))
-    logger.info("Tails Total: %f", float(tailTotal/coinTossTotal))
-    data = ['Tails'] * tailTotal + ['Heads'] * headTotal
     
     # Plotting a basic histogram
-    plt.hist(data, bins=2, color='green', edgecolor='black')
+    output = bernoulli.rvs(headBias, size=coinTossTotal)
+
+    # Create a line graph of frequencies
+    headCounter= 0
+    tailCounter = 0
+
+    for count,x in enumerate(output):
+        if x==1: 
+            headCounter+=1
+        else:
+            tailCounter+=1
+        headsFrequency.append(headCounter/(count+1))
+        tailsFrequency.append(tailCounter/(count+1))
+        
+    headsArray = np.array(headsFrequency)
+    tailsArray = np.array(tailsFrequency)
+    theoreticalHeads = np.array([headBias] * coinTossTotal)
+    theoreticalTails = np.array([1-headBias] * coinTossTotal)
     
-    # Adding labels and title
+    # Plot one: Relative frequencies using a bar chart
+    plt.bar(['Tails', 'Heads'], [tailsFrequency[-1], headsFrequency[-1]], color='green', edgecolor='black')
     plt.xlabel('Outcome')
-    plt.ylabel('Frequency')
-    plt.title(f'Coin Toss Simulation ({coinTossTotal} tosses, Bias: {headBias})')
+    plt.xticks([0,1], ['Tails', 'Heads'])
+    plt.ylabel('Relative Frequency')
+    plt.title(f'Coin Toss Simulation ({coinTossTotal} tosses, P(H) = {headBias})')
     plt.savefig(f'coinToss{coinTossTotal}_{headBias}.png') 
     plt.clf()
 
-    # Create a line graph of frequencies
-    headsArray = np.array(headsFrequency)
-    tailsArray = np.array(tailsFrequency)
+    # Plot two: Empirical Probability Over Time
 
-    plt.title(f"Probability Over Time ({coinTossTotal} tosses, Bias: {headBias})")
-    plt.plot(headsArray, color="blue", label='Heads')
-    plt.plot(tailsArray, color="red", label='Tails')
-    plt.ylabel('Probability')
+    plt.title(f"Empirical Probability Over ({coinTossTotal} tosses, P(H) = {headBias})")
+    plt.plot(headsArray, color="lightblue", label='Heads')
+    plt.plot(tailsArray, color="lightcoral", label='Tails')
+    plt.plot(theoreticalHeads, color="blue", label=f"P(H)={headBias:.3f}")
+    plt.plot(theoreticalTails, color="red", label=f"P(T)={1-headBias:.3f}")
+    plt.ylabel('Empirical Probability')
     plt.xlabel('Number of Flips')
+    plt.ylim(0,1)
+    plt.xlim(0,coinTossTotal)
     plt.legend()
     plt.savefig(f'coinTossLineGraph{coinTossTotal}_{headBias}.png')
     plt.clf()

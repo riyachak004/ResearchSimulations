@@ -1,0 +1,5 @@
+October 27th, 2023
+Updated graphs with more relevant x and y axis labels and included P(H) and P(T) lines: 
+- Used "relative frequency" instead as it allows you to compare the likelihood of one event happening to the likelihood of another event. This is as opposed to absolute frequency which tells you the likelihood of a single event occurring
+- Used empirical probability because these are values based on an observation or an experiment  
+- Included a plotted line for the user provided probability (P(H) and P(T))
