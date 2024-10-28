@@ -57,12 +57,11 @@ def main():
     plt.clf()
 
     # Plot two: Empirical Probability Over Time
-
-    plt.title(f"Empirical Probability Over ({coinTossTotal} tosses, P(H) = {headBias})")
-    plt.plot(headsArray, color="lightblue", label='Heads')
-    plt.plot(tailsArray, color="lightcoral", label='Tails')
-    plt.plot(theoreticalHeads, color="blue", label=f"P(H)={headBias:.3f}")
-    plt.plot(theoreticalTails, color="red", label=f"P(T)={1-headBias:.3f}")
+    plt.title(f"Empirical Probability Over {coinTossTotal} tosses, P(H) = {headBias}")
+    plt.plot(headsArray, color="blue", label='Heads')
+    plt.plot(tailsArray, color="red", label='Tails')
+    plt.plot(theoreticalHeads, color="black", linestyle=':',label=f"P(H)={headBias:.3f}")
+    plt.plot(theoreticalTails, color="black", linestyle=':', label=f"P(T)={1-headBias:.3f}")
     plt.ylabel('Empirical Probability')
     plt.xlabel('Number of Flips')
     plt.ylim(0,1)

@@ -14,6 +14,7 @@ class MarketState:
         self.marketQuantity1 = marketQuantity1
         self.marketQuantity2 = marketQuantity2
         self.eventOutcome = 0
+        self.aggregateMarketCost = 0
     
     def setEventOutcome(self, eventOutcome:str):
         try: 
@@ -49,6 +50,9 @@ def currentMarketCost(market: MarketState) -> float:
     """Calculates the current cost of the market using LMSR's Cost Function."""
     return market.marketConstant * np.log(pow(math.e, market.marketQuantity1/market.marketConstant) + pow(math.e, market.marketQuantity2/market.marketConstant))
 
+def aggregateMarketCost(market: MarketState) -> float: 
+    """Returns the total amount of money traders have spent in the market."""
+    return market.aggregateMarketCost
 
 def calculatePrice( market: MarketState, security:str="") -> float: 
     """Returns the current market price of the security."""
@@ -56,15 +60,15 @@ def calculatePrice( market: MarketState, security:str="") -> float:
     security2Component = pow(math.e, market.marketQuantity2/market.marketConstant)
     return security1Component/(security1Component + security2Component) if security == "Security1" else security2Component/(security1Component + security2Component)
 
-
 def calculateCost(market: MarketState, quantity1:float=0, quantity2:float=0) -> float: 
     """Calculates the cost of trade."""
     costPrior = currentMarketCost(market)
     market.marketQuantity1 += quantity1
     market.marketQuantity2 += quantity2
     costPost = currentMarketCost(market)
-    return costPost - costPrior 
-
+    totalCost = costPost - costPrior 
+    market.aggregateMarketCost+=totalCost
+    return totalCost
 
 def calculateUserProfits(market: MarketState, userBook): 
     """Determines the net compensation of each trader based on the event's outcome """
@@ -149,7 +153,7 @@ def main():
         price2Update = round(calculatePrice(market, "Security2"), 3)
         security1Prices.append(price1Update)
         security2Prices.append(price2Update)
-        marketState = round(currentMarketCost(market), 3)
+        marketState = round(aggregateMarketCost(market), 3)
 
         updateUser(user, q1Update, q2Update, tradeCost)
         logger.info(f"Trade cost: {tradeCost}, Price of Security 1: {price1Update}, Price of Security 2: {price2Update}, Total spent in market: {marketState}")
