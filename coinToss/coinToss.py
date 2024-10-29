@@ -14,10 +14,11 @@ def main():
     # Try catch block to ensure user entered bias and number of coin toss is a float and integer (respectively)
     try:
         headBias = float(input("Enter the bias of heads for your coin in decimal form (i.e. if you want P(flipping Heads) = 0.55, enter 0.55): "))
-        coinTossTotal = int(input("How many coin tosses would you like simulated (i.e. 100): "))
         
         if headBias < 0 or headBias > 1:
             raise ValueError("Bias must be between 0 and 1")
+        
+        coinTossTotal = int(input("How many coin tosses would you like simulated (i.e. 100): "))
         
     except ValueError as e:
         logger.error(f"Input error: {e}")
