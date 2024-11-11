@@ -1,0 +1,31 @@
+# Ignore Python environments
+__pycache__/
+.venv/
+.venv
+
+# Ignore virtual environments
+/Users/riyachakravarty/Library/Python/3.9/bin
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore MacOS system files
+.DS_Store
+
+# Ignore npm & Vite artifacts (if applicable)
+node_modules/
+dist/
+out/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Ignore compiled outputs
+*.class
+*.o
+*.so
+
+# Ignore Jupyter Notebook checkpoints (if applicable)
+.ipynb_checkpoints/
