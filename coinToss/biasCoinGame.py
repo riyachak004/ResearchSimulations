@@ -44,7 +44,7 @@ def biasCoinGame():
 
     while continuePlaying(): 
 
-        output = bernoulli.rvs(headBias, size=1000)
+        output = bernoulli.rvs(headBias, size=100)
 
         alpha_value += sum(1 for x in output if x == 1)
         beta_value += sum(1 for x in output if x == 0)
@@ -64,6 +64,7 @@ def biasCoinGame():
         # Generate the PDF of the beta distribution
         beta_pdf = beta_dist.pdf(x)
         plt.plot(x, beta_pdf)
+        plt.axvline(x=headBias, color='r', linestyle='--', label='P(H)')
         plt.xlabel('P(H)')
         plt.ylabel('Probability Density')
         plt.title(f'Bias Coin Game PDF of Beta Distribution, N={total} (α={alpha_value}, β={beta_value})')
