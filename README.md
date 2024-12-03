@@ -1,5 +1,5 @@
 # Biased Coin Toss Script <br>
-This script has three options. 
+This script has three options. The goal of this script is for visualization of the outcome of a bias coin toss. Option 1 allows a user to define a biased coin and options 2 and 3 use beta distribution to model the uncertainty of a biased coin. 
 
 ### Option 1: Visualize Normal Distribution using a Biased Coin <br>
 This option enables a user to define a biased coin and set the number of trials for flipping the coin. The result of this experiment is represented in a histogram saved as “coinToss{coinTossTotal}_{headBias}.png”. 
