@@ -15,7 +15,6 @@ def introBiasCoinGame():
                 "you would like to continue playing the game at each iteration. Each iteration will be 10 flips and you will be "
                 "shown the Beta distribution of the outcomes after each iteration.")
     
-
 def continuePlaying(): 
 
     while True: 
@@ -37,10 +36,19 @@ def continuePlaying():
 def biasCoinGame(): 
     introBiasCoinGame()
 
-    headBias =  random.random() # randomly chose a coin bias
+    option = float(input("Define the head bias or let the program randomly generate one:\nEnter 1 if you would like to manually input a head bias\nEnter 2 if you want a system defined head bias\n"))
+
+    if option == 1: 
+        headBias = float(input("Enter the headbias in the following format: 0.73\n"))
+    if option == 2:
+        headBias =  random.random() # randomly chose a coin bias
+
+    intial_alpha = float(input("Set the intial value of alpha, (Enter 1 for default):\n"))
+    intial_beta = float(input("Set the intial value of beta, (Enter 1 for default):\n"))
+    
     print("headbias: ", headBias)
-    alpha_value = 1
-    beta_value = 1
+    alpha_value = intial_alpha
+    beta_value = intial_beta
 
     while continuePlaying(): 
 
@@ -54,10 +62,10 @@ def biasCoinGame():
 
         total = alpha_value + beta_value - 2
 
-        relativeSucess = str((alpha_value-1)/total)
+        relativeSuccess = str((alpha_value-1)/total)
         relativeFailure = str((beta_value-1)/total)
 
-        logger.info(f"Relative frequency of succeses: {relativeSucess}")
+        logger.info(f"Relative frequency of succeses: {relativeSuccess}")
         logger.info(f"Relative frequency of failures: {relativeFailure}")
         logger.info(f"Total: {total}")
         

@@ -53,7 +53,7 @@ def biasNormalDis():
     plt.xticks([0,1], ['Tails', 'Heads'])
     plt.ylabel('Relative Frequency')
     plt.title(f'Coin Toss Simulation ({coinTossTotal} tosses, P(H) = {headBias})')
-    imagePath = os.path.join(my_path, f'/visuals/coinToss{coinTossTotal}_{headBias}.png')
+    imagePath = os.path.join(my_path, f'visuals/coinToss{coinTossTotal}_{headBias}.png')
     plt.savefig(imagePath)
     plt.clf()
 
@@ -68,6 +68,6 @@ def biasNormalDis():
     plt.ylim(0,1)
     plt.xlim(0,coinTossTotal)
     plt.legend()
-    imagePath = os.path.join(my_path, f'/visuals/coinTossLineGraph{coinTossTotal}_{headBias}.png')
+    imagePath = os.path.join(my_path, f'visuals/coinTossLineGraph{coinTossTotal}_{headBias}.png')
     plt.savefig(imagePath)
     plt.clf()
