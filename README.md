@@ -1,4 +1,4 @@
-## Biased Coin Toss Script <br>
+# Biased Coin Toss Script <br>
 This script has three options. 
 
 ### Option 1: Visualize Normal Distribution using a Biased Coin <br>
@@ -19,7 +19,7 @@ The user can visualize the pdf's of a set of beta distributions, where alpha and
 The user can enter a bias coin probability or can let the system randomly chose. Then the user is prompted to provide an intial alpha and beta value. Once these parameters are chosen, the program will flip the biased coin 100 times and record the output. Alpha will be incremented by the number of heads flipped and beta will be incremented by the number of tails flipped. A graph of the updated alpha and beta values is produced. If the user choses to continue playing the game, another round will be played and the current alpha and beta values will be updated accordingly. 
 
 
-## Cost Function Based Prediction Market (LMSR) Script <br>
+# Cost Function Based Prediction Market (LMSR) Script <br>
 This script simulates a cost function based prediction market with two securities and two traders, governed by the Logarithmic Market Scoring Rule (LMSR). 
 
 User defined actions: setting initial market state (quantities of Security 1 and Security 2), defining the market constant, placing a sequence of trades, closing the market, and defining the event outcome.
