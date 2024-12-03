@@ -1,7 +1,5 @@
 # Ignore Python environments
-__pycache__/
-.venv/
-.venv
+coinToss/__pycache__/
 
 # Ignore virtual environments
 /Users/riyachakravarty/Library/Python/3.9/bin
